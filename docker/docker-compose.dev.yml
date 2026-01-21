@@ -1,0 +1,116 @@
+# ACM算法学习平台 - 开发环境 Docker Compose 配置
+# 参考：开发指南V3 - 3.4 Docker Compose配置
+
+version: '3.8'
+
+services:
+  # MySQL 8.0 - 结构化数据存储
+  mysql:
+    image: mysql:8.0
+    container_name: acm-mysql-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-acm_root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-acm_platform}
+      MYSQL_USER: ${MYSQL_USER:-acm_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-acm_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - acm-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # MongoDB 6.0 - 非结构化数据存储
+  mongodb:
+    image: mongo:6.0
+    container_name: acm-mongodb-dev
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-acm_user}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-acm_password}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-acm_platform}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - acm-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      timeout: 20s
+      retries: 10
+
+  # Redis 7.0 - 缓存和消息队列
+  redis:
+    image: redis:7-alpine
+    container_name: acm-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - acm-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 10s
+      retries: 5
+
+  # MinIO - 对象存储
+  minio:
+    image: minio/minio:latest
+    container_name: acm-minio-dev
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - acm-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      timeout: 20s
+      retries: 5
+
+  # ChromaDB - 向量数据库
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: acm-chromadb-dev
+    ports:
+      - "8001:8000"
+    volumes:
+      - chromadb_data:/chroma/chroma
+    environment:
+      - CHROMA_SERVER_AUTH_CREDENTIALS_ENABLED=false
+      - CHROMA_SERVER_AUTH_CREDENTIALS=${CHROMA_AUTH_CREDENTIALS:-}
+    networks:
+      - acm-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+  chromadb_data:
+    driver: local
+
+networks:
+  acm-network:
+    driver: bridge

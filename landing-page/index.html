@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM算法学习平台 - AI驱动的个性化算法学习体验</title>
+    <meta name="description" content="融合多源学习资料，通过AI生成分层笔记，提供个性化算法学习路径">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 50%);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .hero-buttons .cta-button {
+            padding: 16px 40px;
+            font-size: 18px;
+        }
+
+        .secondary-button {
+            padding: 16px 40px;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .secondary-button:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--dark-light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Note Preview Section */
+        .note-preview {
+            padding: 100px 0;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .preview-text h2 {
+            font-size: 40px;
+            margin-bottom: 24px;
+        }
+
+        .preview-text p {
+            color: var(--gray);
+            font-size: 18px;
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .preview-features {
+            list-style: none;
+        }
+
+        .preview-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .preview-features li i {
+            color: var(--accent);
+        }
+
+        .preview-demo {
+            background: var(--dark-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .layer-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .layer-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--gray);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .layer-tab.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .layer-content {
+            padding: 32px;
+            min-height: 300px;
+        }
+
+        .layer-content h4 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .layer-content p {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: var(--dark-light);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .pricing-card .price span {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pricing-features li i {
+            color: var(--accent);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .faq-question:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 24px 24px;
+            color: var(--gray);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            background: var(--dark-light);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            padding: 8px 0;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">🎯 ACM算法学习平台</a>
+            <ul class="nav-links">
+                <li><a href="#features">功能特性</a></li>
+                <li><a href="#preview">笔记预览</a></li>
+                <li><a href="#pricing">价格方案</a></li>
+                <li><a href="#faq">常见问题</a></li>
+            </ul>
+            <a href="#" class="cta-button">立即开始</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI驱动的个性化<br>算法学习体验</h1>
+            <p class="subtitle">融合多源学习资料，通过AI生成分层笔记，提供从直观引入到深度实践的完整学习路径</p>
+            <div class="hero-buttons">
+                <a href="#" class="cta-button">免费开始学习</a>
+                <a href="#features" class="secondary-button">了解更多</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心功能</h2>
+                <p>专为算法学习设计的智能学习平台</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>多源资料融合</h3>
+                    <p>整合经典教材PDF、技术博客、视频教程、LeetCode题解等多种学习资源，一站式获取全面知识</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>L1-L4分层笔记</h3>
+                    <p>由浅入深的四层学习结构：直观引入、核心原理、代码实现、实战分析，循序渐进掌握算法</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI智能教练</h3>
+                    <p>24/7在线的AI算法教练，实时解答疑问，提供个性化学习建议，像名师一样手把手教学</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>知识图谱导航</h3>
+                    <p>可视化的知识图谱，清晰展示算法间的依赖关系，智能规划个性化学习路径</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>高效学习路径</h3>
+                    <p>基于六维能力评估模型，精准定位薄弱环节，推荐最适合的学习内容，提升学习效率</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>积分灵活付费</h3>
+                    <p>按需付费的积分模式，只为有效学习付费，多种充值套餐，满足不同学习需求</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Note Preview Section -->
+    <section id="preview" class="note-preview">
+        <div class="container">
+            <div class="preview-container">
+                <div class="preview-text">
+                    <h2>革命性的分层笔记系统</h2>
+                    <p>传统算法学习资料往往过于理论化或缺乏深度。我们的L1-L4分层笔记系统，让不同水平的学习者都能找到合适的学习起点。</p>
+                    <ul class="preview-features">
+                        <li><i class="fas fa-check"></i> L1 直观引入：生活类比快速建立直觉</li>
+                        <li><i class="fas fa-check"></i> L2 核心原理：数学推导深入理解本质</li>
+                        <li><i class="fas fa-check"></i> L3 代码实现：逐行注释掌握工程实践</li>
+                        <li><i class="fas fa-check"></i> L4 实战分析：例题精讲举一反三</li>
+                    </ul>
+                </div>
+                <div class="preview-demo">
+                    <div class="layer-tabs">
+                        <button class="layer-tab active" data-layer="l1">🎯 L1 直观引入</button>
+                        <button class="layer-tab" data-layer="l2">🔬 L2 核心原理</button>
+                        <button class="layer-tab" data-layer="l3">💻 L3 代码实现</button>
+                        <button class="layer-tab" data-layer="l4">⚔️ L4 实战分析</button>
+                    </div>
+                    <div class="layer-content" id="layer-content">
+                        <h4>二分查找：像查字典一样找数据</h4>
+                        <p>想象你在查一本英文字典，要找"algorithm"这个词。你会怎么找？<br><br>
+                        你不会从第一页开始一页一页翻，而是会翻开中间，如果"algorithm"在前面，就继续翻前半本的中间...这就是二分查找的核心思想！<br><br>
+                        每次查找都能排除一半的数据，就像你在1000页的字典里找单词，最多只需要翻10次就能找到！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>选择适合你的方案</h2>
+                <p>灵活的积分定价，只为有效学习付费</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>基础套餐</h3>
+                    <div class="price">¥29<span>/次</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 100积分</li>
+                        <li><i class="fas fa-check"></i> 约10次AI对话</li>
+                        <li><i class="fas fa-check"></i> 查看20篇笔记</li>
+                        <li><i class="fas fa-check"></i> 适合尝鲜体验</li>
+                    </ul>
+                    <a href="#" class="cta-button" style="width: 100%;">立即购买</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-bottom: 12px;">最受欢迎</div>
+                    <h3>标准套餐</h3>
+                    <div class="price">¥99<span>/次</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 500积分</li>
+                        <li><i class="fas fa-check"></i> 约50次AI对话</li>
+                        <li><i class="fas fa-check"></i> 查看100篇笔记</li>
+                        <li><i class="fas fa-check"></i> 赠送50积分</li>
+                    </ul>
+                    <a href="#" class="cta-button" style="width: 100%;">立即购买</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>专业套餐</h3>
+                    <div class="price">¥299<span>/次</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 2000积分</li>
+                        <li><i class="fas fa-check"></i> 约200次AI对话</li>
+                        <li><i class="fas fa-check"></i> 无限笔记查看</li>
+                        <li><i class="fas fa-check"></i> 赠送500积分</li>
+                    </ul>
+                    <a href="#" class="cta-button" style="width: 100%;">立即购买</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>常见问题</h2>
+                <p>解答你可能关心的问题</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        什么是L1-L4分层笔记？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        L1-L4分层笔记是我们独有的学习方式。L1用生活类比建立直觉，L2深入数学原理，L3讲解代码实现，L4分析实战应用。这种分层设计让不同水平的学习者都能找到适合自己的学习起点。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        积分如何消耗？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        查看笔记消耗1-10积分（取决于层级），与AI教练对话消耗10积分/次。积分永不过期，可以累积使用。我们提供多种充值套餐，满足不同学习需求。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        AI教练能解答哪些问题？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        AI教练基于Claude大模型，可以解答算法原理、代码实现、复杂度分析、解题思路等各类算法学习问题。它还能根据你的学习情况，提供个性化的学习建议。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        是否适合算法初学者？
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        非常适合！我们的L1层专门为初学者设计，用生动的生活类比帮助你快速建立算法直觉。知识图谱会根据你的水平推荐适合的学习路径，让学习循序渐进。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>关于我们</h4>
+                    <p style="color: var(--gray);">致力于用AI技术革新算法学习体验，让每个人都能轻松掌握算法。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>产品</h4>
+                    <ul>
+                        <li><a href="#">分层笔记</a></li>
+                        <li><a href="#">AI教练</a></li>
+                        <li><a href="#">知识图谱</a></li>
+                        <li><a href="#">定价方案</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>资源</h4>
+                    <ul>
+                        <li><a href="#">使用文档</a></li>
+                        <li><a href="#">API文档</a></li>
+                        <li><a href="#">博客</a></li>
+                        <li><a href="#">社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <ul>
+                        <li><a href="#">邮箱</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ACM算法学习平台. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Layer Tabs
+        const layerContent = {
+            l1: `
+                <h4>二分查找：像查字典一样找数据</h4>
+                <p>想象你在查一本英文字典，要找"algorithm"这个词。你会怎么找？<br><br>
+                你不会从第一页开始一页一页翻，而是会翻开中间，如果"algorithm"在前面，就继续翻前半本的中间...这就是二分查找的核心思想！<br><br>
+                每次查找都能排除一半的数据，就像你在1000页的字典里找单词，最多只需要翻10次就能找到！</p>
+            `,
+            l2: `
+                <h4>二分查找的数学原理</h4>
+                <p>二分查找的核心思想是<strong>分治法</strong>。每次比较都将搜索区间减半，时间复杂度为O(log n)。<br><br>
+                <strong>算法条件：</strong><br>
+                1. 必须是顺序存储结构（数组）<br>
+                2. 必须是有序的<br><br>
+                <strong>复杂度分析：</strong><br>
+                - 时间复杂度：O(log n)<br>
+                - 空间复杂度：O(1)（迭代）</p>
+            `,
+            l3: `
+                <h4>Python代码实现</h4>
+                <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; overflow-x: auto;"><code style="color: #a5b4fc;">def binary_search(arr, target):
+    """二分查找
+    Args:
+        arr: 有序数组
+        target: 目标值
+    Returns:
+        int: 目标索引，-1表示未找到
+    """
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1</code></pre>
+            `,
+            l4: `
+                <h4>LeetCode实战：704. 二分查找</h4>
+                <p><strong>题目描述：</strong><br>
+                给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。<br><br>
+                <strong>解题思路：</strong><br>
+                1. 初始化左右边界<br>
+                2. 循环查找直到左边界大于右边界<br>
+                3. 每次取中间值比较<br>
+                4. 根据比较结果调整边界<br><br>
+                <strong>复杂度：</strong> O(log n) 时间，O(1) 空间</p>
+            `
+        };
+
+        document.querySelectorAll('.layer-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.layer-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const layer = tab.dataset.layer;
+                document.getElementById('layer-content').innerHTML = layerContent[layer];
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .pricing-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+# ACM算法学习平台 - 知识图谱骨架
+# 参考：PRD V4 - 6.6 知识图谱骨架YAML示例
+
+# 分类定义
+categories:
+  - id: basic
+    name: 基础算法
+    description: 算法入门和基础概念
+  - id: data_structure
+    name: 数据结构
+    description: 常用数据结构及其应用
+  - id: dp
+    name: 动态规划
+    description: 动态规划思想与经典问题
+  - id: graph
+    name: 图论
+    description: 图算法及其应用
+  - id: string
+    name: 字符串
+    description: 字符串处理算法
+  - id: math
+    name: 数学
+    description: 算法中的数学知识
+
+# 知识点定义
+topics:
+  # ========== 基础算法 ==========
+  - id: time_complexity
+    name: 时间复杂度
+    name_en: Time Complexity
+    category: basic
+    difficulty: 1
+    importance: 5
+    description: 理解算法的时间复杂度分析和Big O表示法
+    estimated_hours: 2
+    prerequisites: []
+    related: [space_complexity]
+
+  - id: space_complexity
+    name: 空间复杂度
+    name_en: Space Complexity
+    category: basic
+    difficulty: 1
+    importance: 4
+    description: 理解算法的空间复杂度分析
+    estimated_hours: 1.5
+    prerequisites: []
+    related: [time_complexity]
+
+  - id: binary_search
+    name: 二分查找
+    name_en: Binary Search
+    category: basic
+    difficulty: 2
+    importance: 5
+    description: 在有序数组中快速查找元素
+    estimated_hours: 3
+    prerequisites: [time_complexity]
+    related: [two_pointers]
+
+  - id: two_pointers
+    name: 双指针
+    name_en: Two Pointers
+    category: basic
+    difficulty: 2
+    importance: 5
+    description: 使用双指针技巧优化算法
+    estimated_hours: 3
+    prerequisites: [time_complexity]
+    related: [binary_search, sliding_window]
+
+  - id: sliding_window
+    name: 滑动窗口
+    name_en: Sliding Window
+    category: basic
+    difficulty: 3
+    importance: 4
+    description: 使用滑动窗口解决子数组/子串问题
+    estimated_hours: 4
+    prerequisites: [two_pointers]
+    related: [two_pointers]
+
+  - id: recursion
+    name: 递归
+    name_en: Recursion
+    category: basic
+    difficulty: 3
+    importance: 5
+    description: 理解递归思想和递归函数设计
+    estimated_hours: 4
+    prerequisites: [stack]
+    related: [backtracking, divide_conquer]
+
+  - id: backtracking
+    name: 回溯
+    name_en: Backtracking
+    category: basic
+    difficulty: 4
+    importance: 4
+    description: 使用回溯法解决组合和排列问题
+    estimated_hours: 5
+    prerequisites: [recursion]
+    related: [dfs]
+
+  - id: divide_conquer
+    name: 分治
+    name_en: Divide and Conquer
+    category: basic
+    difficulty: 4
+    importance: 4
+    description: 使用分治思想解决问题
+    estimated_hours: 4
+    prerequisites: [recursion]
+    related: [merge_sort, quick_sort]
+
+  - id: greedy
+    name: 贪心算法
+    name_en: Greedy Algorithm
+    category: basic
+    difficulty: 3
+    importance: 4
+    description: 使用贪心策略求解问题
+    estimated_hours: 4
+    prerequisites: []
+    related: [dp]
+
+  # ========== 数据结构 ==========
+  - id: array
+    name: 数组
+    name_en: Array
+    category: data_structure
+    difficulty: 1
+    importance: 5
+    description: 数组的基础操作和常见技巧
+    estimated_hours: 2
+    prerequisites: []
+    related: [linked_list]
+
+  - id: linked_list
+    name: 链表
+    name_en: Linked List
+    category: data_structure
+    difficulty: 2
+    importance: 5
+    description: 链表的基本操作和应用
+    estimated_hours: 3
+    prerequisites: [pointer]
+    related: [array, two_pointers]
+
+  - id: stack
+    name: 栈
+    name_en: Stack
+    category: data_structure
+    difficulty: 2
+    importance: 5
+    description: 栈的特性及应用场景
+    estimated_hours: 2
+    prerequisites: [array]
+    related: [monotonic_stack]
+
+  - id: monotonic_stack
+    name: 单调栈
+    name_en: Monotonic Stack
+    category: data_structure
+    difficulty: 4
+    importance: 4
+    description: 使用单调栈解决特定问题
+    estimated_hours: 3
+    prerequisites: [stack]
+    related: [stack]
+
+  - id: queue
+    name: 队列
+    name_en: Queue
+    category: data_structure
+    difficulty: 2
+    importance: 5
+    description: 队列的特性及应用场景
+    estimated_hours: 2
+    prerequisites: [array]
+    related: [bfs, monotonic_queue]
+
+  - id: monotonic_queue
+    name: 单调队列
+    name_en: Monotonic Queue
+    category: data_structure
+    difficulty: 4
+    importance: 3
+    description: 使用单调队列优化滑动窗口
+    estimated_hours: 3
+    prerequisites: [queue, sliding_window]
+    related: [queue]
+
+  - id: heap
+    name: 堆
+    name_en: Heap
+    category: data_structure
+    difficulty: 3
+    importance: 5
+    description: 堆的性质和应用
+    estimated_hours: 3
+    prerequisites: [tree]
+    related: [priority_queue]
+
+  - id: priority_queue
+    name: 优先队列
+    name_en: Priority Queue
+    category: data_structure
+    difficulty: 3
+    importance: 4
+    description: 优先队列的应用
+    estimated_hours: 2
+    prerequisites: [heap]
+    related: [heap]
+
+  - id: hash_table
+    name: 哈希表
+    name_en: Hash Table
+    category: data_structure
+    difficulty: 2
+    importance: 5
+    description: 哈希表的原理和应用
+    estimated_hours: 3
+    prerequisites: []
+    related: []
+
+  - id: tree
+    name: 树
+    name_en: Tree
+    category: data_structure
+    difficulty: 3
+    importance: 5
+    description: 树的基本概念和遍历
+    estimated_hours: 4
+    prerequisites: [recursion]
+    related: [binary_tree, bst]
+
+  - id: binary_tree
+    name: 二叉树
+    name_en: Binary Tree
+    category: data_structure
+    difficulty: 3
+    importance: 5
+    description: 二叉树的遍历和操作
+    estimated_hours: 4
+    prerequisites: [tree, recursion]
+    related: [bst, balanced_tree]
+
+  - id: bst
+    name: 二叉搜索树
+    name_en: Binary Search Tree
+    category: data_structure
+    difficulty: 3
+    importance: 4
+    description: BST的性质和操作
+    estimated_hours: 3
+    prerequisites: [binary_tree, binary_search]
+    related: [binary_tree, avl_tree]
+
+  - id: balanced_tree
+    name: 平衡树
+    name_en: Balanced Tree
+    category: data_structure
+    difficulty: 5
+    importance: 3
+    description: AVL树和红黑树
+    estimated_hours: 5
+    prerequisites: [bst]
+    related: [avl_tree, rb_tree]
+
+  - id: avl_tree
+    name: AVL树
+    name_en: AVL Tree
+    category: data_structure
+    difficulty: 5
+    importance: 3
+    description: AVL树的旋转操作
+    estimated_hours: 4
+    prerequisites: [balanced_tree]
+    related: [rb_tree]
+
+  - id: rb_tree
+    name: 红黑树
+    name_en: Red-Black Tree
+    category: data_structure
+    difficulty: 5
+    importance: 3
+    description: 红黑树的性质和应用
+    estimated_hours: 5
+    prerequisites: [balanced_tree]
+    related: [avl_tree]
+
+  - id: trie
+    name: 字典树
+    name_en: Trie
+    category: data_structure
+    difficulty: 4
+    importance: 4
+    description: Trie树的原理和应用
+    estimated_hours: 3
+    prerequisites: [tree]
+    related: [string]
+
+  - id: segment_tree
+    name: 线段树
+    name_en: Segment Tree
+    category: data_structure
+    difficulty: 5
+    importance: 3
+    description: 线段树的构建和查询
+    estimated_hours: 5
+    prerequisites: [tree]
+    related: [binary_indexed_tree]
+
+  - id: binary_indexed_tree
+    name: 树状数组
+    name_en: Binary Indexed Tree
+    category: data_structure
+    difficulty: 5
+    importance: 3
+    description: 树状数组的原理和应用
+    estimated_hours: 4
+    prerequisites: [tree]
+    related: [segment_tree]
+
+  - id: union_find
+    name: 并查集
+    name_en: Union Find
+    category: data_structure
+    difficulty: 3
+    importance: 4
+    description: 并查集的优化和应用
+    estimated_hours: 3
+    prerequisites: []
+    related: [graph]
+
+  # ========== 动态规划 ==========
+  - id: dp_basics
+    name: 动态规划基础
+    name_en: DP Basics
+    category: dp
+    difficulty: 3
+    importance: 5
+    description: 理解DP的基本思想和状态定义
+    estimated_hours: 4
+    prerequisites: [recursion]
+    related: [memoization]
+
+  - id: memoization
+    name: 记忆化搜索
+    name_en: Memoization
+    category: dp
+    difficulty: 3
+    importance: 4
+    description: 使用记忆化优化递归
+    estimated_hours: 2
+    prerequisites: [recursion, dp_basics]
+    related: [dp_basics]
+
+  - id: knapsack
+    name: 背包问题
+    name_en: Knapsack Problem
+    category: dp
+    difficulty: 3
+    importance: 5
+    description: 0-1背包和完全背包
+    estimated_hours: 4
+    prerequisites: [dp_basics]
+    related: [dp_basics]
+
+  - id: lcs
+    name: 最长公共子序列
+    name_en: Longest Common Subsequence
+    category: dp
+    difficulty: 3
+    importance: 4
+    description: LCS问题的DP解法
+    estimated_hours: 3
+    prerequisites: [dp_basics]
+    related: [dp_basics]
+
+  - id: lis
+    name: 最长递增子序列
+    name_en: Longest Increasing Subsequence
+    category: dp
+    difficulty: 3
+    importance: 4
+    description: LIS的DP解法和优化
+    estimated_hours: 3
+    prerequisites: [dp_basics]
+    related: [dp_basics]
+
+  - id: dp_range
+    name: 区间DP
+    name_en: Interval DP
+    category: dp
+    difficulty: 4
+    importance: 4
+    description: 区间类DP问题
+    estimated_hours: 4
+    prerequisites: [dp_basics]
+    related: [dp_basics]
+
+  - id: dp_state
+    name: 状态压缩DP
+    name_en: State Compression DP
+    category: dp
+    difficulty: 5
+    importance: 3
+    description: 使用二进制表示状态
+    estimated_hours: 5
+    prerequisites: [dp_basics]
+    related: [dp_basics]
+
+  # ========== 图论 ==========
+  - id: graph_basics
+    name: 图的基础
+    name_en: Graph Basics
+    category: graph
+    difficulty: 2
+    importance: 5
+    description: 图的表示和基本概念
+    estimated_hours: 3
+    prerequisites: []
+    related: []
+
+  - id: bfs
+    name: 广度优先搜索
+    name_en: Breadth-First Search
+    category: graph
+    difficulty: 2
+    importance: 5
+    description: BFS的原理和应用
+    estimated_hours: 3
+    prerequisites: [graph_basics, queue]
+    related: [dfs, shortest_path]
+
+  - id: dfs
+    name: 深度优先搜索
+    name_en: Depth-First Search
+    category: graph
+    difficulty: 2
+    importance: 5
+    description: DFS的原理和应用
+    estimated_hours: 3
+    prerequisites: [graph_basics, recursion]
+    related: [bfs, backtracking]
+
+  - id: shortest_path
+    name: 最短路径
+    name_en: Shortest Path
+    category: graph
+    difficulty: 3
+    importance: 5
+    description: Dijkstra和Floyd算法
+    estimated_hours: 4
+    prerequisites: [graph_basics, bfs]
+    related: [bfs, graph_basics]
+
+  - id: mst
+    name: 最小生成树
+    name_en: Minimum Spanning Tree
+    category: graph
+    difficulty: 3
+    importance: 4
+    description: Prim和Kruskal算法
+    estimated_hours: 3
+    prerequisites: [graph_basics, union_find]
+    related: [graph_basics]
+
+  - id: topological_sort
+    name: 拓扑排序
+    name_en: Topological Sort
+    category: graph
+    difficulty: 3
+    importance: 4
+    description: DAG的拓扑排序
+    estimated_hours: 2
+    prerequisites: [graph_basics, bfs]
+    related: [dag]
+
+  - id: dag
+    name: 有向无环图
+    name_en: DAG
+    category: graph
+    difficulty: 3
+    importance: 4
+    description: DAG的性质和DP
+    estimated_hours: 3
+    prerequisites: [graph_basics, topological_sort]
+    related: [topological_sort]
+
+  # ========== 字符串 ==========
+  - id: string_basics
+    name: 字符串基础
+    name_en: String Basics
+    category: string
+    difficulty: 1
+    importance: 5
+    description: 字符串的基本操作
+    estimated_hours: 2
+    prerequisites: []
+    related: []
+
+  - id: kmp
+    name: KMP算法
+    name_en: KMP Algorithm
+    category: string
+    difficulty: 4
+    importance: 4
+    description: 字符串匹配算法
+    estimated_hours: 4
+    prerequisites: [string_basics]
+    related: [string_basics]
+
+  # ========== 数学 ==========
+  - id: gcd
+    name: 最大公约数
+    name_en: GCD
+    category: math
+    difficulty: 1
+    importance: 4
+    description: 欧几里得算法
+    estimated_hours: 1
+    prerequisites: []
+    related: [lcm]
+
+  - id: lcm
+    name: 最小公倍数
+    name_en: LCM
+    category: math
+    difficulty: 1
+    importance: 3
+    description: LCM的计算
+    estimated_hours: 1
+    prerequisites: [gcd]
+    related: [gcd]
+
+  - id: prime
+    name: 质数
+    name_en: Prime Number
+    category: math
+    difficulty: 2
+    importance: 4
+    description: 质数判断和筛法
+    estimated_hours: 2
+    prerequisites: []
+    related: []
+
+  - id: combinatorics
+    name: 组合数学
+    name_en: Combinatorics
+    category: math
+    difficulty: 3
+    importance: 3
+    description: 排列和组合
+    estimated_hours: 3
+    prerequisites: []
+    related: []
