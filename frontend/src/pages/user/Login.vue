@@ -21,6 +21,9 @@
             required
           />
         </div>
+        <div v-if="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
         <button type="submit" class="btn btn-primary" :disabled="loading">
           {{ loading ? '登录中...' : '登录' }}
         </button>
@@ -36,6 +39,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { login } from '@/api/user'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -46,22 +50,35 @@ const form = ref({
 })
 
 const loading = ref(false)
+const errorMessage = ref('')
 
 async function handleLogin() {
   loading.value = true
+  errorMessage.value = ''
+
   try {
-    // TODO: 调用登录API
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // 调用登录API
+    const result = await login({
+      email: form.value.email,
+      password: form.value.password
+    })
 
-    // 模拟登录成功
-    userStore.setUser(
-      { id: 1, email: form.value.email, nickname: 'Test User' },
-      'mock-token'
-    )
+    console.log('登录响应:', result)
+    console.log('用户信息:', result.user)
+    console.log('Token:', result.access_token)
 
+    // 存储用户信息和token
+    userStore.setUser(result.user, result.access_token)
+
+    // 验证存储
+    console.log('存储后的token:', localStorage.getItem('token'))
+    console.log('存储后的user:', localStorage.getItem('user'))
+
+    // 跳转到首页
     router.push('/')
   } catch (error) {
-    alert('登录失败: ' + error.message)
+    console.error('登录错误:', error)
+    errorMessage.value = error.response?.data?.message || error.message || '登录失败，请检查邮箱和密码'
   } finally {
     loading.value = false
   }
@@ -114,6 +131,15 @@ input {
 input:focus {
   outline: none;
   border-color: #6366f1;
+}
+
+.error-message {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background: #fee;
+  color: #c33;
+  font-size: 14px;
 }
 
 .btn {

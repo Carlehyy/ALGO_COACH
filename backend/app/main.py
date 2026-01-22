@@ -22,17 +22,30 @@ async def lifespan(app: FastAPI):
     logger.info(f"📦 环境: {settings.app_env}")
     logger.info(f"🔧 调试模式: {settings.app_debug}")
 
-    # TODO: 初始化数据库连接
-    # TODO: 初始化Redis连接
-    # TODO: 初始化MinIO客户端
+    # 初始化SQLite数据库
+    from app.infrastructure.database import sqlite
+    await sqlite.init_sqlite()
+
+    # 创建数据库表（开发环境）
+    if settings.app_debug:
+        from app.models.mysql import user, chat  # 导入所有模型
+        logger.info(f"准备创建表，已注册的模型: {list(sqlite.Base.metadata.tables.keys())}")
+
+        def create_tables(sync_conn):
+            logger.info("开始同步创建表...")
+            sqlite.Base.metadata.create_all(sync_conn)
+            logger.info(f"表创建完成，包含表: {list(sqlite.Base.metadata.tables.keys())}")
+
+        async with sqlite.engine.begin() as conn:
+            await conn.run_sync(create_tables)
+        logger.info("✅ 数据库表检查完成")
 
     yield
 
     # 关闭时执行
     logger.info("👋 应用关闭中...")
-    # TODO: 关闭数据库连接
-    # TODO: 关闭Redis连接
-    # TODO: 关闭MinIO客户端
+    # 关闭SQLite连接
+    await sqlite.close_sqlite()
 
 
 def create_app() -> FastAPI:
@@ -48,10 +61,22 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # 配置CORS
+    # 配置CORS - 开发环境允许所有本地端口
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins.split(","),
+        allow_origins=[
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:5175",
+            "http://localhost:5176",
+            "http://localhost:5177",
+            "http://localhost:5178",
+            "http://localhost:5179",
+            "http://localhost:5180",
+            "http://localhost:3000",
+            "http://127.0.0.1:5173",
+            "http://127.0.0.1:5176",
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -9,7 +9,11 @@ from sqlalchemy import Column, Integer, String, DateTime, Enum, Numeric
 from sqlalchemy.orm import declarative_base
 import enum
 
-from app.infrastructure.database.mysql import Base
+# 使用统一的Base（从mysql导入，但实际上应该共享）
+try:
+    from app.infrastructure.database.sqlite import Base
+except ImportError:
+    from app.infrastructure.database.mysql import Base
 
 
 class UserRole(str, enum.Enum):

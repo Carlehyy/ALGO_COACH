@@ -3,6 +3,7 @@ ACM算法学习平台 - Resource模型
 参考：PRD V4 - 10.数据库设计 - t_resource表
 """
 
+import enum
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, BigInteger, Text, DateTime, Enum
 from sqlalchemy.orm import declarative_base
@@ -53,7 +54,7 @@ class Resource(Base):
     uploader_id = Column(Integer, nullable=False, index=True, comment="上传者ID")
 
     # 元数据
-    metadata = Column(Text, nullable=True, comment="元数据(JSON)")
+    resource_metadata = Column(Text, nullable=True, comment="元数据(JSON)")
 
     # 解析结果
     parse_result = Column(Text, nullable=True, comment="解析结果(JSON)")

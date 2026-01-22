@@ -73,6 +73,7 @@
 <script setup>
 import { ref, onMounted, nextTick, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { createSession as apiCreateSession, getSessions, getMessages, sendMessage as apiSendMessage } from '@/api/coach'
 
 const userStore = useUserStore()
 const currentSessionId = ref(null)
@@ -89,9 +90,8 @@ onMounted(() => {
 
 async function loadSessions() {
   try {
-    // TODO: 调用API获取会话列表
-    // const data = await getSessions()
-    // sessions.value = data
+    const result = await getSessions()
+    sessions.value = result.data || []
   } catch (error) {
     console.error('加载会话失败', error)
   }
@@ -99,12 +99,13 @@ async function loadSessions() {
 
 async function createSession() {
   try {
-    // TODO: 调用API创建会话
-    // const data = await createSession()
-    // sessions.value.unshift(data)
-    // selectSession(data.id)
+    const result = await apiCreateSession({ title: '新对话' })
+    const newSession = result.data
+    sessions.value.unshift(newSession)
+    selectSession(newSession.id)
   } catch (error) {
     console.error('创建会话失败', error)
+    alert('创建会话失败: ' + (error.response?.data?.message || error.message || '未知错误'))
   }
 }
 
@@ -115,9 +116,8 @@ function selectSession(sessionId) {
 
 async function loadMessages() {
   try {
-    // TODO: 调用API获取消息
-    // const data = await getMessages(currentSessionId.value)
-    // messages.value = data
+    const result = await getMessages(currentSessionId.value)
+    messages.value = result.data || []
     await scrollToBottom()
   } catch (error) {
     console.error('加载消息失败', error)
@@ -126,56 +126,52 @@ async function loadMessages() {
 
 async function sendMessage() {
   if (!userInput.value.trim() || streaming.value) return
+  if (!currentSessionId.value) {
+    alert('请先创建或选择一个会话')
+    return
+  }
 
   const message = userInput.value.trim()
   userInput.value = ''
 
-  // 添加用户消息
+  // 添加用户消息到界面
   messages.value.push({
     role: 'user',
     content: message,
-    tokens: message.length / 4,
+    tokens: Math.ceil(message.length / 4),
     created_at: new Date().toISOString()
   })
 
   await scrollToBottom()
 
-  // 模拟AI回复（非流式）
+  // 调用API发送消息
   streaming.value = true
   try {
-    // TODO: 调用流式API
-    await simulateAIResponse(message)
+    const result = await apiSendMessage({
+      session_id: currentSessionId.value,
+      message: message
+    })
+
+    // 添加AI回复
+    const aiResponse = result.data
+    messages.value.push({
+      role: 'assistant',
+      content: aiResponse.content,
+      tokens: aiResponse.tokens || 0,
+      created_at: new Date().toISOString()
+    })
+  } catch (error) {
+    console.error('发送消息失败', error)
+    messages.value.push({
+      role: 'assistant',
+      content: '抱歉，消息发送失败: ' + (error.response?.data?.message || error.message || '未知错误'),
+      tokens: 0,
+      created_at: new Date().toISOString()
+    })
   } finally {
     streaming.value = false
     await scrollToBottom()
   }
-}
-
-async function simulateAIResponse(userMessage) {
-  // 模拟AI回复
-  const responses = [
-    `关于"${userMessage}"这个问题，让我来帮你分析一下。\n\n这是一个很好的问题！建议从以下几个方面来理解：\n\n1. **基本概念**：首先需要理解核心概念\n2. **算法思路**：思考可能的解决方案\n3. **复杂度分析**：评估时间和空间复杂度\n\n你想深入了解哪部分呢？`,
-    `理解这个算法需要多练习！\n\n**学习建议：**\n- 先掌握基础数据结构\n- 多做相关练习题\n- 总结常见解题模式\n\n需要我详细讲解这个知识点吗？`,
-    `让我为你详细讲解一下。\n\n这个知识点是算法学习中的重点内容。建议你：\n\n1. 理解基本原理\n2. 手动实现代码\n3. 做几道练习题\n4. 总结常见的陷阱\n\n有什么具体问题吗？`
-  ]
-
-  const response = responses[Math.floor(Math.random() * responses.length)]
-
-  // 模拟打字效果
-  const words = response.split('')
-  for (let char of words) {
-    streamingContent.value += char
-    await new Promise(resolve => setTimeout(resolve, 20))
-  }
-
-  messages.value.push({
-    role: 'assistant',
-    content: streamingContent.value,
-    tokens: streamingContent.value.length / 4,
-    created_at: new Date().toISOString()
-  })
-
-  streamingContent.value = ''
 }
 
 async function scrollToBottom() {

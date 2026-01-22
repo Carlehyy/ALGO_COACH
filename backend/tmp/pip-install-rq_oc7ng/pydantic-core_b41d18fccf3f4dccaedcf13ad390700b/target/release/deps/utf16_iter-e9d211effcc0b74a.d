@@ -1,0 +1,9 @@
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/utf16_iter-e9d211effcc0b74a.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/indices.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/report.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/libutf16_iter-e9d211effcc0b74a.rlib: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/indices.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/report.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/libutf16_iter-e9d211effcc0b74a.rmeta: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/indices.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/report.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/indices.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf16_iter-1.0.5/src/report.rs:

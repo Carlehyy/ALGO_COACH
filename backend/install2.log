@@ -1,0 +1,20 @@
+Collecting motor
+  Using cached motor-3.7.1-py3-none-any.whl.metadata (21 kB)
+Collecting redis
+  Using cached redis-7.1.0-py3-none-any.whl.metadata (12 kB)
+Collecting minio
+  Using cached minio-7.2.20-py3-none-any.whl.metadata (6.5 kB)
+Collecting anthropic
+  Using cached anthropic-0.76.0-py3-none-any.whl.metadata (28 kB)
+Collecting celery
+  Using cached celery-5.6.2-py3-none-any.whl.metadata (23 kB)
+Collecting aiofiles
+  Using cached aiofiles-25.1.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting cryptography
+  Using cached cryptography-46.0.3.tar.gz (749 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'

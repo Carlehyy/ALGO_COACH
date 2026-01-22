@@ -1,5 +1,13 @@
 <template>
   <div class="home">
+    <!-- 用户信息栏 -->
+    <div class="user-bar" v-if="userStore.isLoggedIn">
+      <span class="welcome-text">欢迎，{{ userStore.user?.nickname || userStore.user?.email }}</span>
+      <span class="points-text">积分: {{ userStore.user?.points || 0 }}</span>
+      <router-link to="/user/profile" class="btn btn-small">个人中心</router-link>
+      <button @click="handleLogout" class="btn btn-small btn-secondary">退出</button>
+    </div>
+
     <h1>欢迎来到 ACM 算法学习平台</h1>
     <p>AI驱动的个性化算法学习平台</p>
 
@@ -20,15 +28,18 @@
 
     <div class="cta">
       <button @click="goToNotes" class="btn btn-primary">开始学习</button>
-      <button @click="goToLogin" class="btn btn-secondary">立即登录</button>
+      <button v-if="!userStore.isLoggedIn" @click="goToLogin" class="btn btn-secondary">立即登录</button>
+      <button v-else @click="goToCoach" class="btn btn-secondary">AI教练</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 function goToNotes() {
   router.push('/note')
@@ -36,6 +47,15 @@ function goToNotes() {
 
 function goToLogin() {
   router.push('/user/login')
+}
+
+function goToCoach() {
+  router.push('/coach')
+}
+
+function handleLogout() {
+  userStore.logout()
+  window.location.reload()
 }
 </script>
 
@@ -45,6 +65,40 @@ function goToLogin() {
   margin: 0 auto;
   padding: 60px 20px;
   text-align: center;
+}
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px;
+  margin-bottom: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.points-text {
+  font-size: 14px;
+  color: #6366f1;
+  font-weight: 600;
+  background: #f0f4ff;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 h1 {

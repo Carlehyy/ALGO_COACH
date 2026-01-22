@@ -1,0 +1,18 @@
+[0;34mℹ️  当前目录: /data/data/com.termux/files/home/ALGO_COACH/backend[0m
+[0;34mℹ️  Python 版本: Python 3.12.12 (完整: 3.12.12)[0m
+[0;34mℹ️  系统架构: aarch64[0m
+[0;34mℹ️  激活虚拟环境...[0m
+[0;34mℹ️  临时目录: /data/data/com.termux/files/home/ALGO_COACH/backend/tmp[0m
+[0;34mℹ️  升级 pip...[0m
+Requirement already satisfied: pip in /data/data/com.termux/files/home/huyiyang/backend/venv/lib/python3.12/site-packages (25.3)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))': /simple/pip/
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))': /simple/pip/
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))': /simple/pip/
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))': /simple/pip/
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))': /simple/pip/
+Requirement already satisfied: setuptools in /data/data/com.termux/files/home/huyiyang/backend/venv/lib/python3.12/site-packages (80.10.1)
+Requirement already satisfied: wheel in /data/data/com.termux/files/home/huyiyang/backend/venv/lib/python3.12/site-packages (0.45.1)
+[0;34mℹ️  尝试安装 pydantic-core (预编译版本)...[0m
+[0;34mℹ️  预编译版本不可用，尝试使用本地 wheel...[0m
+[0;34mℹ️  使用 musllinux wheel (可能兼容)...[0m
+ERROR: pydantic_core-2.41.5-cp312-cp312-musllinux_1_1_aarch64.whl is not a supported wheel on this platform.

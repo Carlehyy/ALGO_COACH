@@ -84,15 +84,15 @@ class TopicService:
         path = []
         visited = set()
 
-        def collect_prereqs(topic_id):
+        async def collect_prereqs(topic_id):
             if topic_id in visited:
                 return
             visited.add(topic_id)
             topic = await self.topic_repo.get_by_id(topic_id)
             if topic and topic.prerequisites:
                 for prereq in topic.prerequisites:
-                    collect_prereqs(prereq)
+                    await collect_prereqs(prereq)
             path.append(topic_id)
 
-        collect_prereqs(target_topic)
+        await collect_prereqs(target_topic)
         return path

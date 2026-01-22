@@ -7,9 +7,9 @@ from fastapi import APIRouter, Depends, Query, Body
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infrastructure.database.mysql import get_mysql_session
+from app.infrastructure.database.sqlite import get_sqlite_session
 from app.api.deps import get_current_user
-from app.services.coach_service import CoachService
+from app.services.coach_service_sqlite import CoachService
 from app.core.response import Response
 from loguru import logger
 
@@ -21,7 +21,7 @@ async def create_session(
     title: str = Body("新对话"),
     topic_id: str = Body(None),
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """创建对话会话"""
     service = CoachService(db)
@@ -32,7 +32,7 @@ async def create_session(
 @router.get("/sessions", response_model=Response)
 async def get_sessions(
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """获取会话列表"""
     service = CoachService(db)
@@ -51,11 +51,11 @@ async def get_sessions(
 async def get_session(
     session_id: str,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """获取会话详情"""
     service = CoachService(db)
-    session = await service.get_session(session_id)
+    session = await service.get_session(int(session_id))
     if not session:
         return Response.fail(code=50004, message="会话不存在")
     return Response.success(data={
@@ -72,11 +72,11 @@ async def get_session(
 async def get_messages(
     session_id: str,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """获取历史消息"""
     service = CoachService(db)
-    messages = await service.get_messages(session_id)
+    messages = await service.get_messages(int(session_id))
     return Response.success(data=[{
         "role": msg.role,
         "content": msg.content,
@@ -90,11 +90,11 @@ async def chat(
     session_id: str = Body(..., embed=True),
     message: str = Body(..., embed=True),
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """发送消息（非流式，用于测试）"""
     service = CoachService(db)
-    result = await service.chat(current_user, session_id, message)
+    result = await service.chat(current_user, int(session_id), message)
     return Response.success(data=result)
 
 
@@ -103,13 +103,13 @@ async def chat_stream(
     session_id: str = Body(..., embed=True),
     message: str = Body(..., embed=True),
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """发送消息（SSE流式响应）"""
     service = CoachService(db)
 
     async def generate():
-        async for chunk in service.chat_stream_generator(current_user, session_id, message):
+        async for chunk in service.chat_stream_generator(current_user, int(session_id), message):
             yield chunk
 
     return StreamingResponse(
@@ -126,9 +126,9 @@ async def chat_stream(
 async def close_session(
     session_id: str,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """关闭会话"""
     service = CoachService(db)
-    await service.close_session(session_id)
+    await service.close_session(int(session_id))
     return Response.success(message="会话已关闭")

@@ -7,7 +7,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.infrastructure.database.mysql import get_mysql_session
+from app.infrastructure.database.sqlite import get_sqlite_session
 from app.api.deps import get_current_user
 from app.services.user_service import UserService
 from app.api.v1.schemas.user import (
@@ -27,7 +27,7 @@ router = APIRouter(prefix="/users", tags=["用户管理"])
 @router.post("/register", response_model=Response[UserResponse])
 async def register(
     user_in: UserCreate,
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     用户注册
@@ -38,13 +38,13 @@ async def register(
     """
     service = UserService(db)
     user = await service.create_user(user_in)
-    return Response.success(data=UserResponse.model_validate(user))
+    return Response.success(data=UserResponse.model_validate(user, from_attributes=True))
 
 
 @router.post("/login", response_model=Response[TokenResponse])
 async def login(
     login_in: UserLogin,
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     用户登录
@@ -60,7 +60,7 @@ async def login(
         data=TokenResponse(
             access_token=result["access_token"],
             token_type="bearer",
-            user=UserResponse.model_validate(result["user"]),
+            user=UserResponse.model_validate(result["user"], from_attributes=True),
         )
     )
 
@@ -70,14 +70,14 @@ async def get_me(
     current_user = Depends(get_current_user),
 ):
     """获取当前登录用户信息"""
-    return Response.success(data=UserResponse.model_validate(current_user))
+    return Response.success(data=UserResponse.model_validate(current_user, from_attributes=True))
 
 
 @router.put("/me", response_model=Response[UserResponse])
 async def update_me(
     user_in: UserUpdate,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     更新当前用户信息
@@ -95,7 +95,7 @@ async def update_me(
 async def change_password(
     password_in: ChangePassword,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     修改密码
@@ -111,7 +111,7 @@ async def change_password(
 @router.get("/balance", response_model=Response)
 async def get_balance(
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """获取当前用户积分余额信息"""
     service = UserService(db)
@@ -122,7 +122,7 @@ async def get_balance(
 @router.post("/refresh", response_model=Response[TokenResponse])
 async def refresh_token(
     authorization: Optional[str] = Header(None),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     刷新访问令牌
@@ -170,7 +170,7 @@ async def list_users(
     status: Optional[str] = None,
     role: Optional[str] = None,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     获取用户列表（管理员）
@@ -194,7 +194,7 @@ async def list_users(
 async def disable_user(
     user_id: int,
     current_user = Depends(get_current_user),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     禁用用户（管理员）

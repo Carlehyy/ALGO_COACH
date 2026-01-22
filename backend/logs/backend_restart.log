@@ -1,0 +1,482 @@
+INFO:     Will watch for changes in these directories: ['/data/data/com.termux/files/home/ALGO_COACH/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [3050] using StatReload
+INFO:     Started server process [3057]
+INFO:     Waiting for application startup.
+2026-01-22 13:50:14.122 | INFO     | app.main:lifespan:21 - 🚀 acm-learning-platform 启动中...
+2026-01-22 13:50:14.123 | INFO     | app.main:lifespan:22 - 📦 环境: development
+2026-01-22 13:50:14.123 | INFO     | app.main:lifespan:23 - 🔧 调试模式: True
+2026-01-22 13:50:14.123 | INFO     | app.infrastructure.database.sqlite:init_sqlite:39 - 正在连接SQLite: sqlite+aiosqlite:////data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:50:14.129 | INFO     | app.infrastructure.database.sqlite:init_sqlite:59 - SQLite连接初始化成功: /data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:50:14.129 | INFO     | app.main:lifespan:32 - 准备创建表，已注册的模型: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:50:14,132 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:14.132 | INFO     | app.main:create_tables:35 - 开始同步创建表...
+2026-01-22 13:50:14,132 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("t_user")
+2026-01-22 13:50:14,132 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:50:14,133 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_sessions")
+2026-01-22 13:50:14,133 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:50:14,134 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2026-01-22 13:50:14,134 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:50:14.135 | INFO     | app.main:create_tables:37 - 表创建完成，包含表: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:50:14,135 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:50:14.136 | INFO     | app.main:lifespan:41 - ✅ 数据库表检查完成
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54900 - "GET /health HTTP/1.1" 200 OK
+2026-01-22 13:50:24,648 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:24,655 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:50:24,655 INFO sqlalchemy.engine.Engine [generated in 0.00022s] ('coach@example.com',)
+2026-01-22 13:50:24,897 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:50:24,897 INFO sqlalchemy.engine.Engine [generated in 0.00030s] ('2026-01-22 05:50:24.897701', '2026-01-22 05:50:24.895966', 6)
+2026-01-22 13:50:24,903 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:50:24.916 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:44902 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:50:24,953 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:24,955 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:50:24,955 INFO sqlalchemy.engine.Engine [generated in 0.00023s] (6,)
+2026-01-22 13:50:24,960 INFO sqlalchemy.engine.Engine INSERT INTO chat_sessions (user_id, title, topic_id, message_count, total_tokens, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-22 13:50:24,960 INFO sqlalchemy.engine.Engine [generated in 0.00033s] (6, '测试会话', None, 0, 0, 'active', '2026-01-22 05:50:24.960047', '2026-01-22 05:50:24.960053')
+2026-01-22 13:50:24,965 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:50:24,965 INFO sqlalchemy.engine.Engine [generated in 0.00016s] (1,)
+2026-01-22 13:50:24.966 | INFO     | app.services.coach_service_sqlite:create_session:39 - [CoachService] Before commit: id=1, user_id=6, in_transaction=True
+2026-01-22 13:50:24,966 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:50:24.969 | INFO     | app.services.coach_service_sqlite:create_session:42 - [CoachService] Commit successful
+2026-01-22 13:50:24.969 | INFO     | app.services.coach_service_sqlite:create_session:47 - [CoachService] 创建会话: id=1, user_id=6
+INFO:     127.0.0.1:44916 - "POST /api/v1/coach/sessions HTTP/1.1" 200 OK
+2026-01-22 13:50:29,612 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:29,612 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:50:29,612 INFO sqlalchemy.engine.Engine [cached since 4.958s ago] ('coach@example.com',)
+2026-01-22 13:50:29,849 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:50:29,849 INFO sqlalchemy.engine.Engine [cached since 4.952s ago] ('2026-01-22 05:50:29.849714', '2026-01-22 05:50:29.849317', 6)
+2026-01-22 13:50:29,854 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:50:29.864 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:37468 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:50:43,060 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:43,060 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:50:43,060 INFO sqlalchemy.engine.Engine [cached since 18.11s ago] (6,)
+2026-01-22 13:50:43,063 INFO sqlalchemy.engine.Engine INSERT INTO chat_sessions (user_id, title, topic_id, message_count, total_tokens, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-22 13:50:43,063 INFO sqlalchemy.engine.Engine [cached since 18.1s ago] (6, '测试会话', None, 0, 0, 'active', '2026-01-22 05:50:43.063370', '2026-01-22 05:50:43.063382')
+2026-01-22 13:50:43,066 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:50:43,067 INFO sqlalchemy.engine.Engine [cached since 18.1s ago] (2,)
+2026-01-22 13:50:43.069 | INFO     | app.services.coach_service_sqlite:create_session:39 - [CoachService] Before commit: id=2, user_id=6, in_transaction=True
+2026-01-22 13:50:43,069 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:50:43.080 | INFO     | app.services.coach_service_sqlite:create_session:42 - [CoachService] Commit successful
+2026-01-22 13:50:43.080 | INFO     | app.services.coach_service_sqlite:create_session:47 - [CoachService] 创建会话: id=2, user_id=6
+INFO:     127.0.0.1:42128 - "POST /api/v1/coach/sessions HTTP/1.1" 200 OK
+2026-01-22 13:50:43,108 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:43,109 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:50:43,109 INFO sqlalchemy.engine.Engine [cached since 18.15s ago] (6,)
+2026-01-22 13:50:43,112 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.user_id = ? AND chat_sessions.status = ? ORDER BY chat_sessions.updated_at DESC
+2026-01-22 13:50:43,112 INFO sqlalchemy.engine.Engine [generated in 0.00033s] (6, 'active')
+INFO:     127.0.0.1:42140 - "GET /api/v1/coach/sessions HTTP/1.1" 200 OK
+2026-01-22 13:50:59,031 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:59,032 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:50:59,032 INFO sqlalchemy.engine.Engine [cached since 34.08s ago] (6,)
+The garbage collector is trying to clean up non-checked-in connection <AdaptedConnection <aiosqlite.core.Connection object at 0x73ec8aed20>>, which will be terminated.  Please ensure that SQLAlchemy pooled connections are returned to the pool explicitly, either by calling ``close()`` or by using appropriate context managers to manage their lifecycle.
+sys:1: SAWarning: The garbage collector is trying to clean up non-checked-in connection <AdaptedConnection <aiosqlite.core.Connection object at 0x73ec8aed20>>, which will be terminated.  Please ensure that SQLAlchemy pooled connections are returned to the pool explicitly, either by calling ``close()`` or by using appropriate context managers to manage their lifecycle.
+2026-01-22 13:50:59,040 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:50:59,040 INFO sqlalchemy.engine.Engine [generated in 0.00043s] (2,)
+2026-01-22 13:50:59.044 | ERROR    | app.core.exceptions:general_exception_handler:92 - [SERVER_ERROR] AttributeError: 'PointService' object has no attribute 'consume_points'
+INFO:     127.0.0.1:43070 - "POST /api/v1/coach/chat HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 355, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 243, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/app/api/v1/endpoints/coach.py", line 97, in chat
+    result = await service.chat(current_user, int(session_id), message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/app/services/coach_service_sqlite.py", line 89, in chat
+    await self.point_service.consume_points(user, 10, "AI教练对话")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PointService' object has no attribute 'consume_points'
+2026-01-22 13:50:59,069 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:50:59,069 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:50:59,069 INFO sqlalchemy.engine.Engine [cached since 34.11s ago] (6,)
+2026-01-22 13:50:59,072 INFO sqlalchemy.engine.Engine SELECT chat_messages.id, chat_messages.session_id, chat_messages.role, chat_messages.content, chat_messages.tokens, chat_messages.created_at 
+FROM chat_messages 
+WHERE chat_messages.session_id = ? ORDER BY chat_messages.created_at ASC
+2026-01-22 13:50:59,072 INFO sqlalchemy.engine.Engine [generated in 0.00031s] (2,)
+INFO:     127.0.0.1:43082 - "GET /api/v1/coach/sessions/2/messages HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/services/coach_service_sqlite.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-01-22 13:52:43.523 | INFO     | app.main:lifespan:46 - 👋 应用关闭中...
+2026-01-22 13:52:43.530 | INFO     | app.infrastructure.database.sqlite:close_sqlite:68 - SQLite连接已关闭
+INFO:     Application shutdown complete.
+INFO:     Finished server process [3057]
+INFO:     Started server process [9594]
+INFO:     Waiting for application startup.
+2026-01-22 13:52:44.456 | INFO     | app.main:lifespan:21 - 🚀 acm-learning-platform 启动中...
+2026-01-22 13:52:44.456 | INFO     | app.main:lifespan:22 - 📦 环境: development
+2026-01-22 13:52:44.456 | INFO     | app.main:lifespan:23 - 🔧 调试模式: True
+2026-01-22 13:52:44.456 | INFO     | app.infrastructure.database.sqlite:init_sqlite:39 - 正在连接SQLite: sqlite+aiosqlite:////data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:52:44.466 | INFO     | app.infrastructure.database.sqlite:init_sqlite:59 - SQLite连接初始化成功: /data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:52:44.466 | INFO     | app.main:lifespan:32 - 准备创建表，已注册的模型: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:52:44,469 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:52:44.469 | INFO     | app.main:create_tables:35 - 开始同步创建表...
+2026-01-22 13:52:44,469 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("t_user")
+2026-01-22 13:52:44,469 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:52:44,470 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_sessions")
+2026-01-22 13:52:44,470 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:52:44,470 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2026-01-22 13:52:44,470 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:52:44.472 | INFO     | app.main:create_tables:37 - 表创建完成，包含表: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:52:44,472 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:52:44.472 | INFO     | app.main:lifespan:41 - ✅ 数据库表检查完成
+INFO:     Application startup complete.
+2026-01-22 13:53:05,352 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:53:05,355 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:53:05,355 INFO sqlalchemy.engine.Engine [generated in 0.00012s] (6,)
+2026-01-22 13:53:05,356 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:53:05,356 INFO sqlalchemy.engine.Engine [generated in 0.00010s] (2,)
+2026-01-22 13:53:05,361 INFO sqlalchemy.engine.Engine INSERT INTO t_point_log (user_id, type, amount, balance, reason, related_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)
+2026-01-22 13:53:05,361 INFO sqlalchemy.engine.Engine [generated in 0.00014s] (6, 'consume', -10, 90, 'AI教练对话', None, '2026-01-22 05:53:05.360999')
+2026-01-22 13:53:05,362 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-22 13:53:05.362 | ERROR    | app.core.exceptions:general_exception_handler:92 - [SERVER_ERROR] OperationalError: (sqlite3.OperationalError) no such table: t_point_log
+[SQL: INSERT INTO t_point_log (user_id, type, amount, balance, reason, related_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: (6, 'consume', -10, 90, 'AI教练对话', None, '2026-01-22 05:53:05.360999')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:52626 - "POST /api/v1/coach/chat HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 182, in execute
+    self._adapt_connection._handle_exception(error)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 342, in _handle_exception
+    raise error
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 164, in execute
+    self.await_(_cursor.execute(operation, parameters))
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlite3.OperationalError: no such table: t_point_log
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 115, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 101, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 355, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/fastapi/routing.py", line 243, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/app/api/v1/endpoints/coach.py", line 97, in chat
+    result = await service.chat(current_user, int(session_id), message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/app/services/coach_service_sqlite.py", line 89, in chat
+    await self.point_service.consume(user, 10, "AI教练对话")
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/app/services/point_service.py", line 78, in consume
+    await self.db.flush()
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/ext/asyncio/session.py", line 787, in flush
+    await greenlet_spawn(self.sync_session.flush, objects=objects)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4331, in flush
+    self._flush(objects)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4427, in _flush
+    flush_context.execute()
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+           ^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 182, in execute
+    self._adapt_connection._handle_exception(error)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 342, in _handle_exception
+    raise error
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/dialects/sqlite/aiosqlite.py", line 164, in execute
+    self.await_(_cursor.execute(operation, parameters))
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 40, in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/cursor.py", line 32, in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 160, in _execute
+    return await future
+           ^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/ALGO_COACH/backend/venv/lib/python3.12/site-packages/aiosqlite/core.py", line 63, in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: t_point_log
+[SQL: INSERT INTO t_point_log (user_id, type, amount, balance, reason, related_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: (6, 'consume', -10, 90, 'AI教练对话', None, '2026-01-22 05:53:05.360999')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-22 13:54:16.481 | WARNING  | app.core.exceptions:business_exception_handler:74 - [BUSINESS_ERROR] 20006: Token已过期
+INFO:     127.0.0.1:57100 - "GET /api/v1/coach/sessions HTTP/1.1" 200 OK
+2026-01-22 13:54:23.580 | WARNING  | app.core.exceptions:business_exception_handler:74 - [BUSINESS_ERROR] 20006: Token已过期
+INFO:     127.0.0.1:59998 - "GET /api/v1/coach/sessions HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/services/coach_service_sqlite.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2026-01-22 13:54:34.518 | INFO     | app.main:lifespan:46 - 👋 应用关闭中...
+2026-01-22 13:54:34.532 | INFO     | app.infrastructure.database.sqlite:close_sqlite:68 - SQLite连接已关闭
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9594]
+INFO:     Started server process [13298]
+INFO:     Waiting for application startup.
+2026-01-22 13:54:35.369 | INFO     | app.main:lifespan:21 - 🚀 acm-learning-platform 启动中...
+2026-01-22 13:54:35.369 | INFO     | app.main:lifespan:22 - 📦 环境: development
+2026-01-22 13:54:35.369 | INFO     | app.main:lifespan:23 - 🔧 调试模式: True
+2026-01-22 13:54:35.369 | INFO     | app.infrastructure.database.sqlite:init_sqlite:39 - 正在连接SQLite: sqlite+aiosqlite:////data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:54:35.379 | INFO     | app.infrastructure.database.sqlite:init_sqlite:59 - SQLite连接初始化成功: /data/data/com.termux/files/home/ALGO_COACH/acm_platform.db
+2026-01-22 13:54:35.379 | INFO     | app.main:lifespan:32 - 准备创建表，已注册的模型: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:54:35,381 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:54:35.381 | INFO     | app.main:create_tables:35 - 开始同步创建表...
+2026-01-22 13:54:35,381 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("t_user")
+2026-01-22 13:54:35,381 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:54:35,381 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_sessions")
+2026-01-22 13:54:35,382 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:54:35,382 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("chat_messages")
+2026-01-22 13:54:35,382 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-22 13:54:35.382 | INFO     | app.main:create_tables:37 - 表创建完成，包含表: ['t_user', 'chat_sessions', 'chat_messages']
+2026-01-22 13:54:35,382 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:54:35.383 | INFO     | app.main:lifespan:41 - ✅ 数据库表检查完成
+INFO:     Application startup complete.
+2026-01-22 13:54:44,816 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:54:44,823 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:54:44,823 INFO sqlalchemy.engine.Engine [generated in 0.00026s] ('coach@example.com',)
+2026-01-22 13:54:45,057 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:54:45,057 INFO sqlalchemy.engine.Engine [generated in 0.00022s] ('2026-01-22 05:54:45.057440', '2026-01-22 05:54:45.056190', 6)
+2026-01-22 13:54:45,059 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:54:45.063 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:34410 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:54:45,093 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:54:45,094 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:54:45,094 INFO sqlalchemy.engine.Engine [generated in 0.00014s] (6,)
+2026-01-22 13:54:45,098 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:54:45,098 INFO sqlalchemy.engine.Engine [generated in 0.00018s] (2,)
+2026-01-22 13:54:45.101 | ERROR    | app.services.coach_service_sqlite:chat:113 - [CoachService] AI调用失败: 'MockClaudeClient' object has no attribute 'messages'
+2026-01-22 13:54:45,103 INFO sqlalchemy.engine.Engine INSERT INTO chat_messages (session_id, role, content, tokens, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id
+2026-01-22 13:54:45,103 INFO sqlalchemy.engine.Engine [generated in 0.00021s (insertmanyvalues) 1/2 (ordered; batch not supported)] (2, 'user', '什么是动态规划？请简单介绍一下。', 4, '2026-01-22 05:54:45.103628')
+2026-01-22 13:54:45,106 INFO sqlalchemy.engine.Engine INSERT INTO chat_messages (session_id, role, content, tokens, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id
+2026-01-22 13:54:45,107 INFO sqlalchemy.engine.Engine [insertmanyvalues 2/2 (ordered; batch not supported)] (2, 'assistant', "抱歉，AI服务暂时不可用。错误：'MockClaudeClient' object has no attribute 'messages'", 17, '2026-01-22 05:54:45.103634')
+2026-01-22 13:54:45,108 INFO sqlalchemy.engine.Engine UPDATE chat_sessions SET message_count=?, total_tokens=?, updated_at=? WHERE chat_sessions.id = ?
+2026-01-22 13:54:45,108 INFO sqlalchemy.engine.Engine [generated in 0.00022s] (2, 21, '2026-01-22 05:54:45.101373', 2)
+2026-01-22 13:54:45,109 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:34414 - "POST /api/v1/coach/chat HTTP/1.1" 200 OK
+2026-01-22 13:55:08,133 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:55:08,134 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:55:08,134 INFO sqlalchemy.engine.Engine [cached since 23.31s ago] ('coach@example.com',)
+2026-01-22 13:55:08,350 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:55:08,351 INFO sqlalchemy.engine.Engine [cached since 23.29s ago] ('2026-01-22 05:55:08.350912', '2026-01-22 05:55:08.350575', 6)
+2026-01-22 13:55:08,352 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:55:08.356 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:50146 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:55:08,382 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:55:08,382 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:55:08,382 INFO sqlalchemy.engine.Engine [cached since 23.29s ago] (6,)
+2026-01-22 13:55:08,384 INFO sqlalchemy.engine.Engine SELECT chat_sessions.id, chat_sessions.user_id, chat_sessions.title, chat_sessions.topic_id, chat_sessions.message_count, chat_sessions.total_tokens, chat_sessions.status, chat_sessions.created_at, chat_sessions.updated_at 
+FROM chat_sessions 
+WHERE chat_sessions.id = ?
+2026-01-22 13:55:08,384 INFO sqlalchemy.engine.Engine [cached since 23.29s ago] (2,)
+2026-01-22 13:55:08.385 | ERROR    | app.services.coach_service_sqlite:chat:113 - [CoachService] AI调用失败: 'MockClaudeClient' object has no attribute 'messages'
+2026-01-22 13:55:08,385 INFO sqlalchemy.engine.Engine INSERT INTO chat_messages (session_id, role, content, tokens, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id
+2026-01-22 13:55:08,385 INFO sqlalchemy.engine.Engine [cached since 23.28s ago (insertmanyvalues) 1/2 (ordered; batch not supported)] (2, 'user', '什么是动态规划？', 2, '2026-01-22 05:55:08.385691')
+2026-01-22 13:55:08,386 INFO sqlalchemy.engine.Engine INSERT INTO chat_messages (session_id, role, content, tokens, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id
+2026-01-22 13:55:08,386 INFO sqlalchemy.engine.Engine [insertmanyvalues 2/2 (ordered; batch not supported)] (2, 'assistant', "抱歉，AI服务暂时不可用。错误：'MockClaudeClient' object has no attribute 'messages'", 17, '2026-01-22 05:55:08.385694')
+2026-01-22 13:55:08,387 INFO sqlalchemy.engine.Engine UPDATE chat_sessions SET message_count=?, total_tokens=?, updated_at=? WHERE chat_sessions.id = ?
+2026-01-22 13:55:08,387 INFO sqlalchemy.engine.Engine [cached since 23.28s ago] (4, 40, '2026-01-22 05:55:08.385350', 2)
+2026-01-22 13:55:08,388 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:50154 - "POST /api/v1/coach/chat HTTP/1.1" 200 OK
+2026-01-22 13:56:01,327 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:56:01,327 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:56:01,327 INFO sqlalchemy.engine.Engine [cached since 76.5s ago] ('coach@example.com',)
+2026-01-22 13:56:01,551 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:56:01,551 INFO sqlalchemy.engine.Engine [cached since 76.49s ago] ('2026-01-22 05:56:01.551473', '2026-01-22 05:56:01.551132', 6)
+2026-01-22 13:56:01,557 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:56:01.563 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:38796 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:57:30,814 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:57:30,817 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.email = ?
+2026-01-22 13:57:30,817 INFO sqlalchemy.engine.Engine [cached since 166s ago] ('coach@example.com',)
+2026-01-22 13:57:31,034 INFO sqlalchemy.engine.Engine UPDATE t_user SET updated_at=?, last_login_at=? WHERE t_user.id = ?
+2026-01-22 13:57:31,035 INFO sqlalchemy.engine.Engine [cached since 166s ago] ('2026-01-22 05:57:31.034823', '2026-01-22 05:57:31.034069', 6)
+2026-01-22 13:57:31,037 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-22 13:57:31.042 | INFO     | app.services.user_service:authenticate:91 - [UserService] 用户登录成功: id=6, email=coach@example.com
+INFO:     127.0.0.1:35092 - "POST /api/v1/users/login HTTP/1.1" 200 OK
+2026-01-22 13:57:35,944 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:57:35,944 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:57:35,944 INFO sqlalchemy.engine.Engine [cached since 170.8s ago] (6,)
+INFO:     127.0.0.1:35104 - "GET /api/v1/users/balance HTTP/1.1" 200 OK
+2026-01-22 13:57:45,729 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-22 13:57:45,730 INFO sqlalchemy.engine.Engine SELECT t_user.id, t_user.email, t_user.hashed_password, t_user.nickname, t_user.avatar, t_user.points, t_user.total_recharged, t_user.total_consumed, t_user.leetcode_username, t_user.ability_score, t_user.status, t_user.role, t_user.created_at, t_user.updated_at, t_user.last_login_at 
+FROM t_user 
+WHERE t_user.id = ?
+2026-01-22 13:57:45,730 INFO sqlalchemy.engine.Engine [cached since 180.6s ago] (6,)
+INFO:     127.0.0.1:37282 - "GET /api/v1/users/balance HTTP/1.1" 200 OK

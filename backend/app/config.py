@@ -36,6 +36,9 @@ class Settings(BaseSettings):
         """MySQL连接URL"""
         return f"mysql+aiomysql://{self.mysql_user}:{self.mysql_password}@{self.mysql_host}:{self.mysql_port}/{self.mysql_database}"
 
+    # === SQLite配置 ===
+    sqlite_url: str = "sqlite+aiosqlite:///./acm_platform.db"
+
     # === MongoDB配置 ===
     mongodb_host: str = "localhost"
     mongodb_port: int = 27017

@@ -1,0 +1,9 @@
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/zerofrom-b88cc9da6a0f3b7b.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/macro_impls.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/zero_from.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/libzerofrom-b88cc9da6a0f3b7b.rlib: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/macro_impls.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/zero_from.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/libzerofrom-b88cc9da6a0f3b7b.rmeta: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/macro_impls.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/zero_from.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/macro_impls.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerofrom-0.1.4/src/zero_from.rs:

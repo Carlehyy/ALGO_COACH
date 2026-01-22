@@ -1,0 +1,20 @@
+Collecting bcrypt==4.0.1
+  Using cached bcrypt-4.0.1.tar.gz (25 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: bcrypt
+  Building wheel for bcrypt (pyproject.toml): started
+  Building wheel for bcrypt (pyproject.toml): finished with status 'done'
+  Created wheel for bcrypt: filename=bcrypt-4.0.1-cp312-cp312-linux_aarch64.whl size=287388 sha256=764871a6f419d5bbacf8a25046506076599f7b707bbb984ac7e79acc57b23d9c
+  Stored in directory: /data/data/com.termux/files/home/.cache/pip/wheels/80/53/90/0db3b974823c1eb9ea0612fda6da5a9bc9b7823f9751127172
+Successfully built bcrypt
+Installing collected packages: bcrypt
+  Attempting uninstall: bcrypt
+    Found existing installation: bcrypt 4.0.1
+    Uninstalling bcrypt-4.0.1:
+      Successfully uninstalled bcrypt-4.0.1
+Successfully installed bcrypt-4.0.1

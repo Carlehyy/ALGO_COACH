@@ -6,15 +6,17 @@ ACM算法学习平台 - 依赖注入模块
 from typing import Optional
 from fastapi import Depends, Header, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
-from app.infrastructure.database.mysql import get_mysql_session
+from app.infrastructure.database.sqlite import get_sqlite_session
 from app.core.security import decode_token
 from app.core.exceptions import BusinessException, ErrorCode
+from app.models.mysql.user import User
 
 
 async def get_current_user(
     authorization: Optional[str] = Header(None),
-    db: AsyncSession = Depends(get_mysql_session),
+    db: AsyncSession = Depends(get_sqlite_session),
 ):
     """
     获取当前登录用户
@@ -34,13 +36,13 @@ async def get_current_user(
         raise BusinessException(*ErrorCode.TOKEN_EXPIRED)
 
     # 从数据库获取用户
-    # TODO: 实现 UserRepository 并获取用户
-    # user = await user_repo.get_by_id(db, int(user_id))
-    # if not user:
-    #     raise BusinessException(*ErrorCode.USER_NOT_FOUND)
+    result = await db.execute(select(User).where(User.id == int(user_id)))
+    user = result.scalar_one_or_none()
 
-    # 临时返回模拟用户
-    return {"id": user_id, "email": "temp@example.com"}
+    if not user:
+        raise BusinessException(*ErrorCode.USER_NOT_FOUND)
+
+    return user
 
 
 async def get_current_admin(current_user = Depends(get_current_user)):

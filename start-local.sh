@@ -157,6 +157,13 @@ else
     exit 1
 fi
 
+# 创建本地临时目录（避免系统目录权限问题）
+mkdir -p tmp
+export TMPDIR="$(pwd)/tmp"
+export TEMP="$(pwd)/tmp"
+export TMP="$(pwd)/tmp"
+print_info "使用本地临时目录: $TMPDIR"
+
 # 安装依赖
 if ! pip show fastapi &> /dev/null; then
     print_info "安装 Python 依赖..."

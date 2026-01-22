@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录流程测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .result {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ACM平台登录流程测试</h1>
+
+    <div class="section">
+        <h2>1. 测试登录API（直接访问后端）</h2>
+        <input type="email" id="email" value="newuser@example.com" placeholder="邮箱">
+        <input type="password" id="password" value="test123" placeholder="密码">
+        <button onclick="testLoginDirect()">直接调用后端API</button>
+        <div id="loginResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="section">
+        <h2>2. 测试登录API（通过Vite代理）</h2>
+        <button onclick="testLoginViaProxy()">通过代理调用API</button>
+        <div id="proxyResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="section">
+        <h2>3. 检查localStorage</h2>
+        <button onclick="checkLocalStorage()">检查存储</button>
+        <button onclick="clearLocalStorage()">清除存储</button>
+        <div id="storageResult" class="result">等待检查...</div>
+    </div>
+
+    <div class="section">
+        <h2>4. 测试获取用户信息（通过代理）</h2>
+        <button onclick="testGetUserViaProxy()">通过代理获取用户</button>
+        <div id="userResult" class="result">等待测试...</div>
+    </div>
+
+    <div class="section">
+        <h2>5. 当前状态</h2>
+        <div id="statusResult" class="result">Token: <span id="tokenStatus">未设置</span><br>User: <span id="userStatus">未设置</span></div>
+    </div>
+
+    <script>
+        function updateStatus() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            document.getElementById('tokenStatus').textContent = token ? '已设置 (' + token.substring(0, 20) + '...)' : '未设置';
+            document.getElementById('userStatus').textContent = user ? '已设置' : '未设置';
+        }
+
+        async function testLoginDirect() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('loginResult');
+
+            try {
+                resultDiv.textContent = '正在请求...';
+                const response = await fetch('http://localhost:8000/api/v1/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = '状态: ' + response.status + '\n' + JSON.stringify(data, null, 2);
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+
+                if (data.code === 200) {
+                    localStorage.setItem('token', data.data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.data.user));
+                    updateStatus();
+                }
+            } catch (error) {
+                resultDiv.textContent = '错误: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testLoginViaProxy() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('proxyResult');
+
+            try {
+                resultDiv.textContent = '正在请求...';
+                const response = await fetch('/api/v1/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = '状态: ' + response.status + '\n' + JSON.stringify(data, null, 2);
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = '错误: ' + error.message + '\n\n注意：如果CORS错误，请确保前端通过Vite运行';
+                resultDiv.className = 'result error';
+            }
+        }
+
+        function checkLocalStorage() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            document.getElementById('storageResult').textContent =
+                'Token: ' + (token ? token : '(空)') + '\n' +
+                'User: ' + (user ? user : '(空)');
+            updateStatus();
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            document.getElementById('storageResult').textContent = '已清除';
+            updateStatus();
+        }
+
+        async function testGetUserViaProxy() {
+            const token = localStorage.getItem('token');
+            const resultDiv = document.getElementById('userResult');
+
+            if (!token) {
+                resultDiv.textContent = '错误: 未设置Token，请先登录';
+                resultDiv.className = 'result error';
+                return;
+            }
+
+            try {
+                resultDiv.textContent = '正在请求...';
+                const response = await fetch('/api/v1/users/me', {
+                    method: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = '状态: ' + response.status + '\n' + JSON.stringify(data, null, 2);
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = '错误: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // 页面加载时更新状态
+        updateStatus();
+    </script>
+</body>
+</html>

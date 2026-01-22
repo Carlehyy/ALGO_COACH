@@ -1,0 +1,8 @@
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/displaydoc-c770f370c9ef85d3.d: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/attr.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/expand.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/fmt.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-rq_oc7ng/pydantic-core_b41d18fccf3f4dccaedcf13ad390700b/target/release/deps/libdisplaydoc-c770f370c9ef85d3.so: /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/lib.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/attr.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/expand.rs /data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/fmt.rs
+
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/lib.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/attr.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/expand.rs:
+/data/data/com.termux/files/home/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/displaydoc-0.2.5/src/fmt.rs:

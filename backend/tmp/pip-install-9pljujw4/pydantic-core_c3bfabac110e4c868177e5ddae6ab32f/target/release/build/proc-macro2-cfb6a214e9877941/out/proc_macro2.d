@@ -1,0 +1,7 @@
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-9pljujw4/pydantic-core_c3bfabac110e4c868177e5ddae6ab32f/target/release/build/proc-macro2-cfb6a214e9877941/out/proc_macro2.d: build/probe.rs
+
+/data/data/com.termux/files/home/ALGO_COACH/backend/tmp/pip-install-9pljujw4/pydantic-core_c3bfabac110e4c868177e5ddae6ab32f/target/release/build/proc-macro2-cfb6a214e9877941/out/libproc_macro2.rmeta: build/probe.rs
+
+build/probe.rs:
+
+# env-dep:RUSTC_BOOTSTRAP

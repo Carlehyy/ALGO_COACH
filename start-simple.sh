@@ -146,8 +146,15 @@ fi
 # 安装依赖
 if ! $PYTHON_CMD -c "import fastapi" &> /dev/null; then
     print_info "安装依赖（首次运行需要几分钟）..."
-    $PYTHON_CMD -m pip install --upgrade pip
-    pip install -r requirements.txt
+    $PYTHON_CMD -m pip install --upgrade pip --trusted-host pypi.org --trusted-host files.pythonhosted.org
+
+    # Termux SSL 修复：更新证书或使用可信主机
+    print_info "修复 SSL 连接..."
+    if command -v apt &> /dev/null; then
+        apt update -qq && apt install -y ca-certificates -qq 2>/dev/null || true
+    fi
+
+    pip install -r requirements.txt --trusted-host pypi.org --trusted-host files.pythonhosted.org --default-timeout=100
     print_success "依赖安装完成"
 fi
 

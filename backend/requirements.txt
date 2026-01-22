@@ -7,9 +7,10 @@ uvicorn[standard]==0.27.1
 python-multipart==0.0.6
 
 # === 数据验证 ===
-pydantic==2.6.1
-pydantic-settings==2.1.0
+pydantic==2.10.5
+pydantic-settings==2.7.1
 email-validator==2.1.0
+pydantic-core==2.27.2
 
 # === 数据库 - MySQL ===
 sqlalchemy==2.0.25
@@ -55,9 +56,6 @@ aiohttp==3.9.1
 python-dateutil==2.8.2
 pytz==2024.1
 tenacity==8.2.3
-
-# === CORS支持 ===
-python-cors==1.0.0
 
 # === SSE支持 ===
 sse-starlette==1.8.2
